@@ -16,14 +16,13 @@
       <div class="header">
           <div class="container">
               <div class="col-md-2 text-left" >
-                  <a id="logo"  href="/">Football The Game</a>
+                  <a id="logo"  href="/">Comments</a>
               </div>
               <div class="col-md-3 col-md-offset-7 text-right">
                   <div>
                       <?php if(empty($_SESSION['user'])):?>
                         <a href="/login">login</a>
                       <?php else:?>
-                        <a href="#">profile</a>
                         <a href="/logout">logout</a>
                       <?php endif;?>
                   </div>
