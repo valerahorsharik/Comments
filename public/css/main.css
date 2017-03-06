@@ -36,3 +36,102 @@ END OF LOGIN
     top: 50%;
     margin-top: -0.625em;
 }
+
+.comments-form{
+    margin-top: 20px;
+   
+}
+.error{
+    position: absolute;
+    padding: 15px;
+    background-color: red;
+    color:lightblue;
+    top:20%;
+    left:45%;
+    font-weight: bold;
+}
+.error a{
+    color: white;
+}
+.comments-form:after{
+    content:'';
+    display:block;
+    clear:both;
+    height: 0px;
+    visibility: hidden;
+}
+.comments-form textarea{
+    width:70%;
+    resize: none;
+    overflow-y:visible;
+    color: blue;
+    float: left;
+    border:3px solid lightcyan;
+}
+.comments-form textarea:focus,.comments-form input[type=submit]:focus{
+    outline: none;
+}
+
+.comments-form input[type="submit"]{
+    margin-top: 17px;
+    margin-left: 15px;
+    border: none;
+    padding: 15px;
+    background-color:lightblue;
+    color:blue;
+}
+
+.comments-form input[type="submit"]:hover{
+    color:lightblue;
+    background-color:blue;
+}
+
+.comments-form input[type="submit"]:active{
+    color:lightskyblue;
+    background-color: darkblue;
+}
+.comments-list{
+    list-style-type: none;
+}
+
+.comments-list{
+    padding-left: 5px;
+}
+
+.comments-list li{
+    margin-top:15px;
+}
+.comments-list li .comment-text{
+    text-indent: 20px;
+}
+li > .comments-list{
+    margin-left:15px;
+}
+
+.comment-info .info{
+    float:left;
+    font-weight: bold;
+    font-style: italic;
+    color:lightseagreen;
+}
+.comment-info .actions{
+    margin-left: 10px;
+    display: inline-block;
+    color:darkblue;
+}
+.comment-info .actions span:hover{
+    color:lightseagreen;
+}
+
+.comment-info:after{
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+.delete-comment,.edit-comment{
+    cursor:pointer;
+}
+
+
