@@ -36,10 +36,13 @@ class Comments extends DB {
      * @param ing $authorId Id of the user 
      * @param string $text Comment from Form
      * @param int $parent_id 
+     * 
+     * @return int 
      */
     public static function save($authorId, $text , $parent_id = 0){
         self::run("INSERT INTO comments VALUES(NULL,?,?,NULL,?)",[$authorId,
                                                         $parent_id,
                                                         $text]);
+        return self::lastInsertId();
     }
 }
