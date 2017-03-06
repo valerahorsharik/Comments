@@ -46,7 +46,7 @@ class vk {
      */
     private $necessaryData = ['email',
         'user_id', 'first_name', 'last_name', 'photo_100'];
-    
+
     /**
      *
      * User id from DB.
@@ -54,7 +54,15 @@ class vk {
      * @var int
      */
     private $id = null;
-    
+
+    /**
+     *
+     * User email from DB.
+     * 
+     * @var string
+     */
+    private $email = null;
+
     /**
      * 
      * Create an instance and call getAccessToken method
@@ -118,14 +126,29 @@ class vk {
      * 
      * @return void
      */
-    public function tryToLogin(){
-        $this->id = DB::run("SELECT id FROM users WHERE vk_id = ?", [$this->userData['user_id']])->fetchColumn();
-        if($this->id === FALSE || is_null($this->id)){
-            $this->registration();
-        } 
+    public function tryToLogin() {
+        $this->checkUser();
         $this->login();
     }
-    
+
+    /**
+     * Checking by social id if user already in our base
+     * if not - checking by email from social
+     * and if email already in base - just adding social id
+     * otherwise - register him
+     */
+    private function checkUser() {
+        $this->id = DB::run("SELECT id FROM users WHERE vk_id = ?", [$this->userData['user_id']])->fetchColumn();
+        if ($this->id === FALSE || is_null($this->id)) {
+            $this->email = DB::run("SELECT email FROM users WHERE email = ?", [$this->userData['email']])->fetchColumn();
+            if ($this->email === FALSE || is_null($this->email)) {
+                $this->registration();
+            } else {
+                $this->addSocial();
+            }
+        }
+    }
+
     /**
      * 
      * Set user's data in the session(login)
@@ -138,7 +161,18 @@ class vk {
         $_SESSION['user']['name'] = $this->userData['first_name'];
         header('Location:/');
     }
-    
+
+    /**
+     * 
+     * Add social ID to the user
+     * 
+     * @return void 
+     */
+    private function addSocial() {
+        $stmt = DB::run("UPDATE users SET vk_id = ?", [$this->userData['user_id']]);
+        $this->id = DB::lastInsertId();
+    }
+
     /**
      * 
      * Register a new user

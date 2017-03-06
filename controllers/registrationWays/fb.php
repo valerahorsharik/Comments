@@ -124,12 +124,27 @@ class fb {
      * 
      * @return void
      */
-    public function tryToLogin(){
-        $this->id = DB::run("SELECT id FROM users WHERE fb_id = ?", [$this->userData['id']])->fetchColumn();
-        if($this->id === FALSE || is_null($this->id)){
-            $this->registration();
-        } 
+    public function tryToLogin() {
+        $this->checkUser();
         $this->login();
+    }
+
+    /**
+     * Checking by social id if user already in our base
+     * if not - checking by email from social
+     * and if email already in base - just adding social id
+     * otherwise - register him
+     */
+    private function checkUser() {
+        $this->id = DB::run("SELECT id FROM users WHERE fb_id = ?", [$this->userData['id']])->fetchColumn();
+        if ($this->id === FALSE || is_null($this->id)) {
+            $this->email = DB::run("SELECT email FROM users WHERE email = ?", [$this->userData['email']])->fetchColumn();
+            if ($this->email === FALSE || is_null($this->email)) {
+                $this->registration();
+            } else {
+                $this->addSocial();
+            }
+        }
     }
     
     /**
@@ -143,6 +158,17 @@ class fb {
         $_SESSION['user']['id'] = $this->id;
         $_SESSION['user']['name'] = $this->userData['first_name'];
         header('Location:/');
+    }
+    
+    /**
+     * 
+     * Add social ID to the user
+     * 
+     * @return void 
+     */
+    private function addSocial() {
+        $stmt = DB::run("UPDATE users SET fb_id = ?", [$this->userData['id']]);
+        $this->id = DB::lastInsertId();
     }
     
     /**
