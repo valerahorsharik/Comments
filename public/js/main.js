@@ -32,6 +32,22 @@ $(document).ready(function () {
             }
         });
         return false;
+    });
+    
+    $(document).on('click','.delete-comment',function(){
+        var commentId = $(this).closest('li').data('comment-id');
+        $.ajax({
+            type: 'POST',
+            url: '/comment/delete',
+            context: $(this).closest('li'),
+            data: {commentId:commentId},
+            error:function(error){
+                $(this).prepend("<div class=\"error\">" + error.responseText + "</div>");
+            },
+            success:function(){
+                $(this).remove();
+            }
+        });
     })
 })
 
