@@ -13,7 +13,7 @@ class UserController extends Controller {
      * 
      */
     public function login() {
-        if(isset($_SESSION['user'])){
+        if(!self::isGuest()){
             header('Location:/');
         }
         $this->view->display('registration/login');
@@ -27,5 +27,18 @@ class UserController extends Controller {
     public function logout() {
         session_destroy();
         header('Location:/');
+    }
+    
+    /**
+     * 
+     * Checking, if user is guest.
+     * 
+     * @return boolean
+     */
+    public static function isGuest(){
+        if(isset($_SESSION['user'])){
+            return false;
+        }
+        return true;
     }
 }
