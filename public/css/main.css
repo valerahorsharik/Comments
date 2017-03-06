@@ -1,0 +1,38 @@
+/*
+HEADER
+*/
+.header{
+    background-color: lightblue;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+#logo{
+    color:darkblue;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+/*
+END OF HEADER
+*/
+
+/*
+LOGIN
+*/
+.social-way  div {
+    display:inline;
+    cursor:pointer;
+    color:blue;
+}
+/*
+END OF LOGIN
+*/
+
+.vertical-center-text{
+    display:inline-block;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.625em;
+}
