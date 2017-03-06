@@ -13,7 +13,7 @@ class Comments extends DB {
      * @return array
      */
     public static function getMainComments(){
-        $comments = self::run("SELECT * FROM comments WHERE parent_id = ? GROUP BY id DESC",[0])->fetchAll();
+        $comments = self::run("SELECT * FROM comments WHERE parent_id = ? AND deleted = ? GROUP BY id DESC",[0,0])->fetchAll();
         return $comments;
     }
     
@@ -25,10 +25,22 @@ class Comments extends DB {
      * @return array
      */
     public static function getCommentsByParentId($parent_id){
-        $comments = self::run("SELECT * FROM comments WHERE parent_id = ? ", [$parent_id])->fetchAll();
+        $comments = self::run("SELECT * FROM comments WHERE parent_id = ? AND deleted = ? ", [$parent_id, 0])->fetchAll();
         return $comments;
     }
     
+    /**
+     * 
+     * Get User Id of the comment with $commentId
+     * 
+     * @param int $commentId
+     * 
+     * @return int
+     */
+    public static function getUserId($commentId){
+        $userId = self::run("SELECT user_id FROM comments where id = ?",[$commentId])->fetchColumn();
+        return $userId;
+    }
     /**
      * 
      * Save a new comment in the DB
@@ -40,9 +52,21 @@ class Comments extends DB {
      * @return int 
      */
     public static function save($authorId, $text , $parent_id = 0){
-        self::run("INSERT INTO comments VALUES(NULL,?,?,NULL,?)",[$authorId,
+        self::run("INSERT INTO comments VALUES(NULL,?,?,NULL,?,NULL)",[$authorId,
                                                         $parent_id,
                                                         $text]);
         return self::lastInsertId();
+    }
+    
+    /**
+     * 
+     * Delete comment from DB by $id
+     * 
+     * @param int $id 
+     * 
+     * @return void
+     */
+    public static function deleteComment($id){
+        self::run("UPDATE comments SET deleted = ? WHERE id = ?",[1,$id]);
     }
 }
