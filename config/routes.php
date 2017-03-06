@@ -9,5 +9,7 @@ return array(
     'logout' => 'user/logout',
     'login' => 'user/login',
     
+    //Comment's routes
+    'comment/save' => 'comment/save',
     '' => 'comment/index',
 );
