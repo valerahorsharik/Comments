@@ -30,10 +30,9 @@ class CommentController extends Controller{
     public function save(){
         $this->notAuthorized();
         $comment = getPost('comment');
-        $parentId = getPost('parentId');
         $authorId = $_SESSION['user']['id'];
         $date = date("Y-m-d H:i:s");
-        $commentId = Comments::save($authorId, $comment, $parentId);
+        $commentId = Comments::save($authorId, $comment);
         header('HTTP/1.1 200 OK');
         header('Content-Type: application/json; charset=UTF-8');
         echo json_encode(['date' => $date,'commentId' => $commentId]);
@@ -69,6 +68,24 @@ class CommentController extends Controller{
         header('HTTP/1.1 200 OK');
     }
     
+    /**
+     * Commenting an existing comment
+     * 
+     * @return void
+     */
+    public function commentAnExistingComment(){
+        $this->notAuthorized();
+        $text = getPost('text');
+        $parentId = getPost('parentId');
+        $authorId = $_SESSION['user']['id'];
+        $date = date("Y-m-d H:i:s");
+        $commentId = Comments::save($authorId, $text, $parentId);
+        header('HTTP/1.1 200 OK');
+        header('Content-Type: application/json; charset=UTF-8');
+        echo json_encode(['date' => $date,'commentId' => $commentId]);
+    }
+
+
     /**
      * 
      * Checking, if user not authorized

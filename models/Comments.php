@@ -53,9 +53,10 @@ class Comments extends DB {
      */
     public static function save($authorId, $text , $parent_id = 0){
         $text = trim($text);
-        self::run("INSERT INTO comments VALUES(NULL,?,?,NULL,?,NULL)",[$authorId,
+        self::run("INSERT INTO comments VALUES(NULL,?,?,NULL,?,?)",[$authorId,
                                                         $parent_id,
-                                                        $text]);
+                                                        $text,
+                                                        0]);
         return self::lastInsertId();
     }
     
@@ -79,6 +80,7 @@ class Comments extends DB {
      * @param string $text
      */
     public static function editComment($id,$text){
+        $text = trim($text);
         self::run("UPDATE comments SET text = ? where id = ?",[$text,$id]);
     }
 }

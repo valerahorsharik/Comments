@@ -19,7 +19,7 @@ $(document).ready(function () {
     /**
      * Creating a new comment in DB
      */
-    $(document).on('submit','.comments-form', function () {
+    $(document).on('submit', '.comments-form.new', function () {
         var comment = $(this).children('textarea').val();
         $.ajax({
             type: 'POST',
@@ -36,6 +36,7 @@ $(document).ready(function () {
                 <div class="comment-info">\n\
                     <div class="info">' + data.date + '</div>\n\
                     <div class="actions">\n\
+                                <span class=\'glyphicon glyphicon-comment comment-comment\'></span>\n\
                                 <span class=\'glyphicon glyphicon-edit edit-comment\'></span>\n\
                                 <span class=\'glyphicon glyphicon-remove delete-comment\'></span>\n\
                     </div>\n\
@@ -71,7 +72,7 @@ $(document).ready(function () {
             }
         });
     });
-    
+
     /**
      * Show form for editing the comment.
      */
@@ -84,7 +85,7 @@ $(document).ready(function () {
                                 <input type="submit" value="Save">\n\
                             </form>');
     });
-    
+
     /**
      * Edit the comment
      */
@@ -96,13 +97,66 @@ $(document).ready(function () {
             type: 'POST',
             url: '/comment/edit',
             context: commentTextDiv,
-            data:{commentId:commentId,
-                  text:text},
+            data: {commentId: commentId,
+                text: text},
             error: function (error) {
                 $(this).prepend("<div class=\"error\">" + error.responseText + "</div>");
             },
             success: function () {
                 $(this).html(text);
+            }
+        });
+        return false;
+    });
+
+    /**
+     * Display form for adding new comment for the existing comment
+     */
+    $(document).on('click', '.comment-comment', function () {
+        var parent = $(this).closest('li');
+        var parentId = parent.data('comment-id');
+
+        parent.children('.comment-text').after('<form class=\'comments-form comment\' method="post" action="/comment/existing">\n\
+                                <textarea rows=\'3\' name="comment" placeholder="Input your comment here..." ></textarea>\n\
+                                <input type="submit" value="Comment">\n\
+                            </form>');
+        parent.children('.comments-form.comments').focus();
+    });
+
+    /**
+     * Saving new comment in DB which has a parent id
+     */
+    $(document).on('submit', '.comments-form.comment', function () {
+        var parent = $(this).closest('li');
+        var parentId = parent.data('comment-id');
+        var text = $(this).children('textarea').val();
+        $.ajax({
+            type: 'POST',
+            url: '/comment/existing',
+            context: parent,
+            data: {parentId: parentId,
+                text: text},
+            error: function (error) {
+                $(this).prepend("<div class=\"error\">" + error.responseText + "</div>");
+            },
+            success: function (data) {
+                if ($(this).children('.comments-list').length > 0) {
+                    $(this).children('.comments-list').append(
+                            '<li data-comment-id=' + data.commentId + '>\n\
+                <div class="comment-info">\n\
+                    <div class="info">' + data.date + '</div>\n\
+                    <div class="actions">\n\
+                                <span class=\'glyphicon glyphicon-comment comment-comment\'></span>\n\
+                                <span class=\'glyphicon glyphicon-edit edit-comment\'></span>\n\
+                                <span class=\'glyphicon glyphicon-remove delete-comment\'></span>\n\
+                    </div>\n\
+                </div>\n\
+                <div class="comment-text">\n '
+                            + text +
+                            '</div>\n\
+            </li>');
+                    $(this).children('.comments-form.comment').remove();
+                }
             }
         });
         return false;
