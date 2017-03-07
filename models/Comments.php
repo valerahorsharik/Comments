@@ -52,6 +52,7 @@ class Comments extends DB {
      * @return int 
      */
     public static function save($authorId, $text , $parent_id = 0){
+        $text = trim($text);
         self::run("INSERT INTO comments VALUES(NULL,?,?,NULL,?,NULL)",[$authorId,
                                                         $parent_id,
                                                         $text]);
@@ -68,5 +69,16 @@ class Comments extends DB {
      */
     public static function deleteComment($id){
         self::run("UPDATE comments SET deleted = ? WHERE id = ?",[1,$id]);
+    }
+    
+    /**
+     * 
+     * Edit a comment in DB with $id 
+     * 
+     * @param int $id
+     * @param string $text
+     */
+    public static function editComment($id,$text){
+        self::run("UPDATE comments SET text = ? where id = ?",[$text,$id]);
     }
 }
