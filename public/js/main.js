@@ -36,6 +36,7 @@ $(document).ready(function () {
                 <div class="comment-info">\n\
                     <div class="info">' + data.date + '</div>\n\
                     <div class="actions">\n\
+                                <span class="glyphicon glyphicon-arrow-right toggle-comment download-comments"></span>\n\
                                 <span class=\'glyphicon glyphicon-comment comment-comment\'></span>\n\
                                 <span class=\'glyphicon glyphicon-edit edit-comment\'></span>\n\
                                 <span class=\'glyphicon glyphicon-remove delete-comment\'></span>\n\
@@ -115,7 +116,6 @@ $(document).ready(function () {
     $(document).on('click', '.comment-comment', function () {
         var parent = $(this).closest('li');
         var parentId = parent.data('comment-id');
-
         parent.children('.comment-text').after('<form class=\'comments-form comment\' method="post" action="/comment/existing">\n\
                                 <textarea rows=\'3\' name="comment" placeholder="Input your comment here..." ></textarea>\n\
                                 <input type="submit" value="Comment">\n\
@@ -146,6 +146,7 @@ $(document).ready(function () {
                 <div class="comment-info">\n\
                     <div class="info">' + data.date + '</div>\n\
                     <div class="actions">\n\
+                                <span class="glyphicon glyphicon-arrow-right toggle-comment download-comments"></span>\n\
                                 <span class=\'glyphicon glyphicon-comment comment-comment\'></span>\n\
                                 <span class=\'glyphicon glyphicon-edit edit-comment\'></span>\n\
                                 <span class=\'glyphicon glyphicon-remove delete-comment\'></span>\n\
@@ -161,5 +162,59 @@ $(document).ready(function () {
         });
         return false;
     });
-})
+
+    /**
+     * Download comment which belongs to a parentId
+     */
+    $(document).on('click', '.download-comments', function () {
+        var _this = $(this);
+        var parent = $(this).closest('li');
+        var parentId = parent.data('comment-id');
+        commentLvl = parent.closest('.comments-list').data('lvl') + 1;
+        $.ajax({
+            type: 'POST',
+            url: '/comment/download',
+            context: parent,
+            data: {parentId: parentId},
+            success: function (data) {
+                var html = '<ul class="comments-list" data-lvl="' + commentLvl + '">\n';
+                var comments = data.comments;
+                for (var i = 0; i < comments.length; i++) {
+
+                    html += '<li data-comment-id=' + comments[i].id + '>\n\
+                <div class="comment-info">\n\
+                    <div class="info">' + comments[i].timestamp + '</div>\n\
+                    <div class="actions">\n\
+                                <span class="glyphicon glyphicon-arrow-right toggle-comment download-comments"></span>\n';
+                    if (!data.guest) {
+                        html += '    <span class=\'glyphicon glyphicon-comment comment-comment\'></span>\n\
+                                <span class=\'glyphicon glyphicon-edit edit-comment\'></span>\n\
+                                <span class=\'glyphicon glyphicon-remove delete-comment\'></span>\n';
+                    }
+
+                    html += ' </div>\n\
+                </div>\n\
+                <div class="comment-text">\n '
+                            + comments[i].text +
+                            '</div>\n\
+            </li>\n';
+                }
+                html += '</ul>';
+                $(this).append(html);
+                $(this).addClass('active');
+                _this.removeClass('download-comments glyphicon-arrow-right');
+                _this.addClass('glyphicon-arrow-down');
+            }
+        });
+    });
+
+    /**
+     * Display/hide children comments.
+     */
+    $(document).on('click', '.toggle-comment', function () {
+        var parent = $(this).closest('li');
+        parent.toggleClass('active');
+        $(this).toggleClass('glyphicon-arrow-down glyphicon-arrow-right');
+    });
+});
 

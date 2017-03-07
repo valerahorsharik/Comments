@@ -84,8 +84,19 @@ class CommentController extends Controller{
         header('Content-Type: application/json; charset=UTF-8');
         echo json_encode(['date' => $date,'commentId' => $commentId]);
     }
-
-
+    
+    /**
+     * Download all comments which belongs to parent
+     */
+    public function downloadCommentsByParentId(){
+        $parentId = getPost('parentId');
+        $guest = User::isGuest();
+        $comments = Comments::getCommentsByParentId($parentId);
+        header('HTTP/1.1 200 OK');
+        header('Content-Type: application/json; charset=UTF-8');
+        echo json_encode(['comments' => $comments,'guest' => $guest]);
+    }
+    
     /**
      * 
      * Checking, if user not authorized

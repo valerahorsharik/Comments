@@ -21,11 +21,11 @@ class Comments extends DB {
      * 
      * Get all comments which belongs to the $parent_id
      * 
-     * @param int $parent_id
+     * @param int $parentId
      * @return array
      */
-    public static function getCommentsByParentId($parent_id){
-        $comments = self::run("SELECT * FROM comments WHERE parent_id = ? AND deleted = ? ", [$parent_id, 0])->fetchAll();
+    public static function getCommentsByParentId($parentId){
+        $comments = self::run("SELECT * FROM comments WHERE parent_id = ? AND deleted = ? ", [$parentId, 0])->fetchAll();
         return $comments;
     }
     
