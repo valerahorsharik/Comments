@@ -13,6 +13,7 @@ return array(
     'comment/save' => 'comment/save',
     'comment/delete' => 'comment/delete',
     'comment/edit' => 'comment/edit',
-    'comment/existing' => 'comment/commentAnExistingComment', 
+    'comment/existing' => 'comment/commentAnExistingComment',
+    'comment/download' => 'comment/downloadCommentsByParentId',
     '' => 'comment/index',
 );
