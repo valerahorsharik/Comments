@@ -53,14 +53,14 @@ END OF LOGIN
 .error a{
     color: white;
 }
-.comments-form:after{
+.comments-form:after,.edit-form:after{
     content:'';
     display:block;
     clear:both;
     height: 0px;
     visibility: hidden;
 }
-.comments-form textarea{
+.comments-form textarea,.edit-form textarea{
     width:70%;
     resize: none;
     overflow-y:visible;
@@ -68,11 +68,12 @@ END OF LOGIN
     float: left;
     border:3px solid lightcyan;
 }
-.comments-form textarea:focus,.comments-form input[type=submit]:focus{
+.comments-form textarea:focus,.comments-form input[type=submit]:focus,
+.edit-form textarea:focus,.edit-form input[type=submit]:focus{
     outline: none;
 }
 
-.comments-form input[type="submit"]{
+.comments-form input[type="submit"],.edit-form input[type="submit"]{
     margin-top: 17px;
     margin-left: 15px;
     border: none;
@@ -81,14 +82,17 @@ END OF LOGIN
     color:blue;
 }
 
-.comments-form input[type="submit"]:hover{
+.comments-form input[type="submit"]:hover,.edit-form input[type="submit"]:hover{
     color:lightblue;
     background-color:blue;
 }
 
-.comments-form input[type="submit"]:active{
+.comments-form input[type="submit"]:active,.edit-form input[type="submit"]:active{
     color:lightskyblue;
     background-color: darkblue;
+}
+.edit-form{
+    width:50%;
 }
 .comments-list{
     list-style-type: none;
