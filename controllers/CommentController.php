@@ -56,6 +56,21 @@ class CommentController extends Controller{
     
     /**
      * 
+     * Edit a comment
+     * 
+     * @return void
+     */
+    public function edit(){
+        $this->notAuthorized();
+        $commentId = getPost('commentId');
+        $text = getPost('text');
+        $this->isOwner($commentId);
+        Comments::editComment($commentId,$text);
+        header('HTTP/1.1 200 OK');
+    }
+    
+    /**
+     * 
      * Checking, if user not authorized
      * send an error with 403 status
      * 
