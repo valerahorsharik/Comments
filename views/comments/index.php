@@ -9,6 +9,7 @@
                 <div class="comment-info">
                     <div class="info"><?= $comment['timestamp'] ?></div>
                     <div class="actions">
+                        <span class="glyphicon glyphicon-arrow-right toggle-comment download-comments"></span>
                         <?php if (!$data['guest']): ?>
                             <span class='glyphicon glyphicon-comment comment-comment'></span>
                             <?php if ($comment['user_id'] == $_SESSION['user']['id']): ?>
