@@ -13,5 +13,6 @@ return array(
     'comment/save' => 'comment/save',
     'comment/delete' => 'comment/delete',
     'comment/edit' => 'comment/edit',
+    'comment/existing' => 'comment/commentAnExistingComment', 
     '' => 'comment/index',
 );
