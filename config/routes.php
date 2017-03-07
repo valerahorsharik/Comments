@@ -12,5 +12,6 @@ return array(
     //Comment's routes
     'comment/save' => 'comment/save',
     'comment/delete' => 'comment/delete',
+    'comment/edit' => 'comment/edit',
     '' => 'comment/index',
 );
