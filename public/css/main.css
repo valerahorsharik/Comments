@@ -116,6 +116,11 @@ END OF LOGIN
 }
 li > .comments-list{
     margin-left:15px;
+    display:none;
+}
+
+li.active > .comments-list{
+    display: block;
 }
 
 .comment-info .info{
@@ -140,7 +145,7 @@ li > .comments-list{
     clear: both;
     visibility: hidden;
 }
-.delete-comment,.edit-comment, .comment-comment{
+.delete-comment,.edit-comment, .comment-comment,.toggle-comment{
     cursor:pointer;
 }
 
