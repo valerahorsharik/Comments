@@ -91,6 +91,12 @@ END OF LOGIN
     color:lightskyblue;
     background-color: darkblue;
 }
+.comments-form.comment{
+    width:50%;
+}
+.comments-form.comment input[type="submit"]{
+    margin-top:10px;
+}
 .edit-form{
     width:50%;
 }
@@ -134,7 +140,7 @@ li > .comments-list{
     clear: both;
     visibility: hidden;
 }
-.delete-comment,.edit-comment{
+.delete-comment,.edit-comment, .comment-comment{
     cursor:pointer;
 }
 
